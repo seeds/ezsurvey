@@ -338,13 +338,11 @@ class eZSurveyType extends eZDataType
                 return false;
             }
 
-            echo "d";
             $nodeID = $http->postVariable( $postNodeID );
             $node = eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $actionContinue === true )
             {
-            echo "A";
                 $survey = eZSurvey::fetch( $surveyID );
                 $status = $survey->validateContentObjectAttributeID( $contentObjectAttributeID );
 
