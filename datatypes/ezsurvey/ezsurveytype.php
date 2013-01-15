@@ -303,6 +303,21 @@ class eZSurveyType extends eZDataType
                             break;
                         }
                     }
+                    $object = $node->attribute( "object" );
+                    $relatedList = $object->attribute( "related_contentobject_array" );
+                    foreach ( $relatedList as $relatedItem )
+                    {
+                        $dataMap = $relatedItem->dataMap();
+                        foreach ( $dataMap as $attribute )
+                        {
+                            $attributeObjectID = $attribute->attribute( 'id' );
+                            if ( $attributeObjectID == $contentObjectAttributeID )
+                            {
+                                $actionContinue = true;
+                                break;
+                            }
+                        }
+                    }
                 }
                 else if ( get_class( $node ) == 'eZContentObjectTreeNode' )
                 {
@@ -323,11 +338,13 @@ class eZSurveyType extends eZDataType
                 return false;
             }
 
+            echo "d";
             $nodeID = $http->postVariable( $postNodeID );
             $node = eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $actionContinue === true )
             {
+            echo "A";
                 $survey = eZSurvey::fetch( $surveyID );
                 $status = $survey->validateContentObjectAttributeID( $contentObjectAttributeID );
 
